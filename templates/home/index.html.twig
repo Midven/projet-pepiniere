@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+
+		<div class="jumbotron text-center mt-3">
+
+
+			{% if app.user %}
+				{# {{dump(app.user)}} #}
+				{% if app.user %}
+					{% if app.user.avatar %}
+						<img src="/images/avatars/{{app.user.avatar}}" alt="Photo de profil de {{app.user.prenom}}" class="avatar avatar-grand" title="Photo de profil de {{app.user.prenom}}">
+					{% else %}
+						<img src="/images/default.jpg" alt="Photo de profil de {{app.user.prenom}}" class="avatar avatar-grand" title="Photo de profil de {{app.user.prenom}}">
+					{% endif %}
+				{% endif %}
+				<h1 class="display-3">Bonjour
+					{{app.user.prenom}}</h1>
+				<h2>
+					Faites vous plaisir aujourd'hui !
+				</h2>
+
+			{% else %}
+				<h1 class="display-3">Bienvenue sur le site de notre pépinière !</h1>
+			{% endif %}
+			<p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit fugiat recusandae mollitia laudantium nobis ipsa laboriosam fuga porro inventore amet.</p>
+			<hr class="my-4">
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum saepe unde quasi molestias aliquam accusamus.</p>
+
+			<div>
+				<img src="images/arbres1.jpg" alt="Illustration arbre">
+				<img src="images/arbres2.jpg" alt="Illustration arbre">
+
+			</div>
+
+
+			{% if app.user %}
+
+				<a class="btn btn-primary btn-lg mt-3" href="{{ path('articles_index') }}" role="button">Consultez nos articles en vente</a>
+
+			{% else %}
+
+				<p class="lead">
+					<a class="btn btn-primary btn-lg mt-3" href="{{ path('compte_connexion') }}" role="button">Connectez-vous</a>
+					<a class="btn btn-secondary btn-lg mt-3" href="{{ path('compte_inscription') }}" role="button">Inscrivez-vous</a>
+				</p>
+			{% endif %}
+		</div>
+	</div>
+
+{% endblock %}

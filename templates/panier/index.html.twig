@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre pannier
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1 class="mb-3 mt-3">Votre panier</h1>
+		<hr>
+
+		{% if app.user.paniers|length > 0 %}
+
+			{# {{dump(app.user.paniers)}} #}
+
+			<table class="table table-hover">
+
+				<tr>
+					<thead>
+						<th></th>
+						<th>Article</th>
+						<th>Quantité disponible</th>
+						<th>Quantité commandée</th>
+						<th>Prix</th>
+						<th></th>
+					</thead>
+				</tr>
+
+				{% for panier in app.user.paniers %}
+
+					<tr>
+						<td>
+							<img src="/images/photosarbres/{{ panier.article.slug }}-1.jpg" alt="Photo de {{panier.article.nom}}" class="avatar avatar-moyen">
+						</td>
+						<td>
+							<strong>
+								<a href="{{ path('article_show', {'id': panier.article.id}) }}">{{panier.article.nom}}</a>
+							</strong>
+						</td>
+						<td>
+							<strong>{{panier.article.quantite}}</strong>
+						</td>
+						<td>
+							<strong>{{panier.quantite}}</strong>
+						</td>
+						<td>
+							<strong>{{panier.article.prix * panier.quantite}}&euro;</strong>
+						</td>
+						<td>
+							<a href="{{ path('panier_suppression_article', {'id': panier.id}) }}" class="btn btn-danger">
+								<i class="fas fa-trash-alt"></i>
+								Supprimer</a>
+						</td>
+					</tr>
+
+				{% endfor %}
+
+			</table>
+
+			<div class="card border-primary mb-3" style="max-width: 20rem;">
+				<div class="card-header">
+					Adresse de livraison
+				</div>
+				<div class="card-body">
+					<p class="card-text">{{app.user.prenom}}
+						{{app.user.nom}}</p>
+					<p class="card-text">{{app.user.rue}}
+						{{app.user.numerorue}}</p>
+					<p class="card-text">{{app.user.ville}},
+						{{app.user.pays}}</p>
+				</p>
+			</div>
+
+
+		</div>
+
+
+		<a href="{{ path('panier_suppression_totale') }}" class="btn btn-danger">
+			<i class="fas fa-trash-alt"></i>
+			Vider le panier</a>
+		<a href="{{ path('panier_commander') }}" class="btn btn-success">
+			<i class="fas fa-shopping-cart"></i>
+			Passer la commande</a>
+
+
+	{% else %}
+		<p>Votre panier est vide.</p>
+
+	{% endif %}
+</div>{% endblock %}

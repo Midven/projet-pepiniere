@@ -1,0 +1,118 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	{{article.nom}}
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+
+		<h1 class="mt-3 mb-3">{{article.nom}}
+			<i class="fab fa-pagelines"></i>
+		</h1>
+
+		<hr>
+		<p>
+			<strong>En stock :
+				{{article.quantite}}</strong>
+		</p>
+
+		<div>
+			{{article.description | raw }}
+		</div>
+
+		<hr>
+
+		{% if app.user and article.quantite > 0 %}
+			{{ form_start(form) }}
+			{{ form_row(form.quantite) }}
+
+			<button class="btn btn-primary mt-3 mb-3 text-right">
+				<i class="fas fa-shopping-cart"></i>
+				Ajouter au panier</button>
+			{{ form_end(form) }}
+		{% elseif app.user is empty and article.quantite > 0 %}
+			<p>
+				<a href="{{ path('compte_connexion') }}">Connectez vous pour commander cet article.</a>
+			</p>
+		{% else %}
+			<p>Cet article n'est pas disponible</p>
+		{% endif %}
+
+
+		<div class="row affichage-article">
+			<img src="/images/photosarbres/{{ article.slug }}-1.jpg" alt="Photo de {{article.nom}}" class="article-show">
+			<img src="/images/photosarbres/{{ article.slug }}-2.jpg" alt="Photo de {{article.nom}}" class="article-show">
+		</div>
+
+
+		<h2 class="mt-3 mb-3">Commentaires</h2>
+
+		{% if article.commentaires|length > 0 %}
+
+			{% if app.user %}
+				<a href="{{ path('article_commentaire', {'id': article.id}) }}" class="btn btn-primary mt-2 mb-3">
+					<i class="fas fa-comment"></i>
+					Commenter et noter l'article</a>
+			{% else %}
+				<p>
+					<a href="{{ path('compte_connexion') }}">Connectez vous pour commenter cet article.</a>
+				</p>
+			{% endif %}
+
+
+			{% for commentaire in article.commentaires %}
+				<div class="row mb-3">
+					<div class="col-1">
+						{% if commentaire.auteur.avatar %}
+							<img src="/images/avatars/{{commentaire.auteur.avatar}}" alt="Photo de profil de {{commentaire.auteur.prenom}}" class="avatar avatar-moyen" title="Photo de profil de {{commentaire.auteur.prenom}}">
+						{% else %}
+							<img src="/images/default.jpg" alt="Photo de profil de {{commentaire.auteur.prenom}}" class="avatar avatar-moyen" title="Photo de profil de {{commentaire.auteur.prenom}}">
+						{% endif %}
+						<p class="h6">{{commentaire.auteur.prenom}}
+							{{commentaire.auteur.nom}}</p>
+					</div>
+					<div class="col row">
+						<div class="col">
+							<p>{{commentaire.date|date("m/d/Y", "Europe/Paris")}}</p>
+							<blockquote>{{commentaire.contenu}}</blockquote>
+							<p>Note :
+								{{commentaire.note}}/5</p>
+						</div>
+						{% if app.user == commentaire.auteur %}
+							<div class="col-2">
+								<a href="{{ path('compte_mescommentaires_delete', {'id': commentaire.id}) }}" class="btn btn-danger mb-3">
+									<i class="fas fa-trash-alt"></i>
+									Supprimer</a>
+								<a href="{{ path('compte_mescommentaires_edit', {'id': commentaire.id}) }}" class="btn btn-success">
+									<i class="fas fa-pen"></i>
+									Modifier</a>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+				<hr>
+			{% endfor %}
+
+		{% else %}
+
+			<div>
+				<p>Cet article n'a pas encore été commenté. Que diriez vous de commencez ?</p>
+
+				{% if app.user %}
+					<a href="{{ path('article_commentaire', {'id': article.id}) }}" class="btn btn-primary mt-2">
+						<i class="fas fa-comment"></i>
+						Commenter et noter l'article</a>
+				{% else %}
+					<p>
+						<a href="{{ path('compte_connexion') }}">Connectez vous pour commenter cet article.</a>
+					</p>
+				{% endif %}
+
+			</div>
+
+		{% endif %}
+
+	</div>
+{% endblock %}

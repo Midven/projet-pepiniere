@@ -1,0 +1,37 @@
+@import url('./bootstrap.min.css');
+
+.article-show{
+    width:49%;
+    border-radius: 1%;
+}
+
+.affichage-article{
+    justify-content: space-between;
+}
+
+.avatar{
+    border-radius: 100%;
+}
+
+.avatar-petit{
+    width:20px;
+    height:20px;
+}
+
+.avatar-moyen{
+    width:60px;
+    height:60px;
+}
+
+.avatar-grand{
+    width:150px;
+    height:150px;
+}
+
+label{
+    display:block;
+}
+
+input, textarea{
+    width:100%;
+}

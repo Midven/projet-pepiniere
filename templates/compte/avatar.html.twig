@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Modification de l'avatar
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+
+		<h1 class="mb-3 mt-3">Modification de l'avatar</h1>
+		<hr>
+		{{ form_start(form) }}
+
+		{{ form_row(form.imageFile) }}
+
+		<button class="btn btn-success mt-3"><i class="fas fa-pen"></i> Validez les modifications</button>
+
+		{{ form_end(form) }}
+
+
+	</div>
+
+
+{% endblock %}

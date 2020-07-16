@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1 class="mt-3 mb-3">Voici nos articles en vente</h1>
+
+		<div class="row">
+			{% for article in articles %}
+				<div class="card border-primary mb-3 ml-3 col-4" style="max-width: 20rem;">
+					<div class="card-header">
+						<p class="h5">
+							<a href="{{ path('article_show', {'id': article.id}) }}">{{ article.nom }}</a>
+							à
+							<strong class="text-right">{{article.prix}}&euro;</strong>
+						</p>
+					</div>
+					<img class="card-img-top" src="images/photosarbres/{{ article.slug }}-1.jpg" alt="Photo de {{article.nom}}">
+					<div class="card-body">
+						<p class="card-text">{{ article.resume }}</p>
+						{% if article.quantite > 0 %}
+							<p class="card-text">En stock :
+								<strong>{{ article.quantite }}</strong>
+							</p>
+							{% else %}
+							<p class="alert alert-danger">Cet article n'est plus disponible</p>
+						{% endif %}
+
+					</div>
+				</div>
+
+			{% endfor %}
+		</div>
+
+	</div>
+{% endblock %}

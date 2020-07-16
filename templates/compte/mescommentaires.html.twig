@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Mes commentaires
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<h1 class="mt-3 mb-3">Mes commentaires</h1>
+		<hr>
+
+		{% for commentaire in utilisateur.commentaires %}
+			<div class=>
+				<p class="h5">A propos de
+					<a href="{{ path('article_show', {'id': commentaire.article.id}) }}">{{commentaire.article.nom}}
+						<i class="fab fa-pagelines"></i>
+					</a>
+				</p>
+			</div>
+			<div class="row">
+				<div class="col-10">
+					<p>Date :
+						{{commentaire.date|date("d/m/Y", "Europe/Paris")}}</p>
+					<blockquote>{{commentaire.contenu}}</blockquote>
+					<p>Note :
+						{{commentaire.note}}/5</p>
+				</div>
+				<div class="col">
+					<a href="{{ path('compte_mescommentaires_delete', {'id': commentaire.id}) }}" class="btn btn-danger mb-3">
+						<i class="fas fa-trash-alt"></i>
+						Supprimer</a>
+					<a href="{{ path('compte_mescommentaires_edit', {'id': commentaire.id}) }}" class="btn btn-success">
+						<i class="fas fa-pen"></i>
+						Modifier</a>
+				</div>
+			</div>
+			<hr>
+		{% endfor %}
+	</div>
+
+{% endblock %}
